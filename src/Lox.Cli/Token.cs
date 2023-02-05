@@ -22,10 +22,10 @@ namespace Lox {
     }
 
     public class Token {
-        readonly TokenType Type;
-        readonly string Lexeme;
-        readonly object? Literal;
-        readonly int LineNo;
+        public readonly TokenType Type;
+        public readonly string Lexeme;
+        public readonly object? Literal;
+        public readonly int LineNo;
 
         public Token(TokenType type, string lexeme, object? literal, int lineno) {
             Type = type;

@@ -39,6 +39,20 @@ namespace Lox {
                 case ';': AddToken(SEMICOLON); break;
                 case '*': AddToken(STAR); break;
 
+                case '!': AddToken(Match('=') ? BANG_EQUAL : BANG); break;
+                case '=': AddToken(Match('=') ? EQUAL_EQUAL : EQUAL); break;
+                case '<': AddToken(Match('=') ? LESS_EQUAL : LESS); break;
+                case '>': AddToken(Match('=') ? GREATER_EQUAL : GREATER); break;
+
+                case '/':
+                    if (Match('/')) {
+                        // A comment goes until the end of the line.
+                        while (Peek() != '\n' && !IsAtEnd()) Advance();
+                    } else {
+                        AddToken(SLASH);
+                    }
+                    break;
+
                 default:
                     Program.Error(_lineno, "unexpected character.");
                     break;
@@ -50,8 +64,22 @@ namespace Lox {
         }
 
         private void AddToken(TokenType ttype, object? literal) {
-            string text = _source.Substring(_start, _current);
+            int length = Math.Min(0, _current - _start);
+            string text = _source.Substring(_start, length);
             _tokens.Add(new Token(ttype, text, literal, _lineno));
+        }
+
+        private bool Match(char expected) {
+            if (IsAtEnd()) return false;
+            if (_source[_current] != expected) return false;
+
+            _current++;
+            return true;
+        }
+
+        private char Peek() {
+            if (IsAtEnd()) return '\0';
+            return _source[_current];
         }
     }
 }
