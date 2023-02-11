@@ -122,7 +122,7 @@ namespace Lox
 
         private void AddToken(TokenType ttype, object? literal)
         {
-            int length = Math.Min(0, _current - _start);
+            int length = Math.Max(0, _current - _start);
             string text = _source.Substring(_start, length);
             _tokens.Add(new Token(ttype, text, literal, _lineno));
         }
