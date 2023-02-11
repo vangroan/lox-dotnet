@@ -1,4 +1,6 @@
 
+using System.Globalization;
+
 namespace Lox {
     public enum TokenType : int {
         // Single-character tokens.
@@ -34,6 +36,8 @@ namespace Lox {
             LineNo = lineno;
         }
 
-        public override string ToString() => $"{Type} {Lexeme} {Literal}";
+        // Ensure floats are formatted with dot separator
+        private string LiteralRepr => String.Format(CultureInfo.InvariantCulture, "{0}", Literal);
+        public override string ToString() => $"{Type} {Lexeme} {LiteralRepr}";
     }
 }

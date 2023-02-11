@@ -16,17 +16,28 @@ namespace Lox.Cli.Test
             var scanner = new Scanner("(){},.-+;*");
             var tokens = scanner.ScanTokens();
 
-            Assert.That(10, Is.EqualTo(tokens.Count));
-            Assert.That(TokenType.LEFT_PAREN, Is.EqualTo(tokens[0].Type));
-            Assert.That(TokenType.RIGHT_PAREN, Is.EqualTo(tokens[1].Type));
-            Assert.That(TokenType.LEFT_BRACE, Is.EqualTo(tokens[2].Type));
-            Assert.That(TokenType.RIGHT_BRACE, Is.EqualTo(tokens[3].Type));
-            Assert.That(TokenType.COMMA, Is.EqualTo(tokens[4].Type));
-            Assert.That(TokenType.DOT, Is.EqualTo(tokens[5].Type));
-            Assert.That(TokenType.MINUS, Is.EqualTo(tokens[6].Type));
-            Assert.That(TokenType.PLUS, Is.EqualTo(tokens[7].Type));
-            Assert.That(TokenType.SEMICOLON, Is.EqualTo(tokens[8].Type));
-            Assert.That(TokenType.STAR, Is.EqualTo(tokens[9].Type));
+            Assert.That(tokens.Count, Is.EqualTo(10));
+            Assert.That(tokens[0].Type, Is.EqualTo(TokenType.LEFT_PAREN));
+            Assert.That(tokens[1].Type, Is.EqualTo(TokenType.RIGHT_PAREN));
+            Assert.That(tokens[2].Type, Is.EqualTo(TokenType.LEFT_BRACE));
+            Assert.That(tokens[3].Type, Is.EqualTo(TokenType.RIGHT_BRACE));
+            Assert.That(tokens[4].Type, Is.EqualTo(TokenType.COMMA));
+            Assert.That(tokens[5].Type, Is.EqualTo(TokenType.DOT));
+            Assert.That(tokens[6].Type, Is.EqualTo(TokenType.MINUS));
+            Assert.That(tokens[7].Type, Is.EqualTo(TokenType.PLUS));
+            Assert.That(tokens[8].Type, Is.EqualTo(TokenType.SEMICOLON));
+            Assert.That(tokens[9].Type, Is.EqualTo(TokenType.STAR));
+        }
+
+        [Test]
+        public void Test_CommentBlock()
+        {
+            var scanner = new Scanner("before /* foobar */ after");
+            var tokens = scanner.ScanTokens();
+
+            Assert.That(tokens.Count, Is.EqualTo(2));
+            Assert.That(tokens[0].Type, Is.EqualTo(TokenType.IDENTIFIER));
+            Assert.That(tokens[1].Type, Is.EqualTo(TokenType.IDENTIFIER));
         }
     }
 }
