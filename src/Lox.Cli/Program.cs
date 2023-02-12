@@ -20,10 +20,29 @@ internal class Program
         }
         else
         {
+            PrintAst();
             RunPrompt();
         }
 
         Console.WriteLine("exit");
+    }
+
+    private static void PrintAst()
+    {
+        Expr expression = new Expr.Binary(
+            new Token(TokenType.STAR, "*", null, 1),
+            new Expr.Unary(
+                new Token(TokenType.MINUS, "-", null, 1),
+                new Expr.Literal(123)
+            ),
+            new Expr.Grouping(new Expr.Binary(
+                new Token(TokenType.PLUS, "+", null, 1),
+                new Expr.Literal(45.67),
+                new Expr.Literal(98.76)
+            ))
+        );
+
+        Console.WriteLine(new AstPrinter().Print(expression));
     }
 
     private static void RunFile(string path)
