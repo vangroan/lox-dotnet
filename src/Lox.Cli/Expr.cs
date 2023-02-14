@@ -36,9 +36,9 @@ namespace Lox
 
         public class Literal : Expr
         {
-            public readonly object Value;
+            public readonly object? Value;
 
-            public Literal(object value)
+            public Literal(object? value)
             {
                 Value = value;
             }

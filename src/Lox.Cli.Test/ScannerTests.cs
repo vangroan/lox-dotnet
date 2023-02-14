@@ -1,4 +1,3 @@
-using Lox;
 
 namespace Lox.Cli.Test
 {
@@ -16,7 +15,7 @@ namespace Lox.Cli.Test
             var scanner = new Scanner("(){},.-+;*");
             var tokens = scanner.ScanTokens();
 
-            Assert.That(tokens.Count, Is.EqualTo(10));
+            Assert.That(tokens.Count, Is.EqualTo(11)); // + EOF
             Assert.That(tokens[0].Type, Is.EqualTo(TokenType.LEFT_PAREN));
             Assert.That(tokens[1].Type, Is.EqualTo(TokenType.RIGHT_PAREN));
             Assert.That(tokens[2].Type, Is.EqualTo(TokenType.LEFT_BRACE));
@@ -35,7 +34,7 @@ namespace Lox.Cli.Test
             var scanner = new Scanner("before /* foobar */ after");
             var tokens = scanner.ScanTokens();
 
-            Assert.That(tokens.Count, Is.EqualTo(2));
+            Assert.That(tokens.Count, Is.EqualTo(3)); // + EOF
             Assert.That(tokens[0].Type, Is.EqualTo(TokenType.IDENTIFIER));
             Assert.That(tokens[1].Type, Is.EqualTo(TokenType.IDENTIFIER));
         }

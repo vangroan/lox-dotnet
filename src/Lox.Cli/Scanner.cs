@@ -50,6 +50,7 @@ namespace Lox
                 ScanToken();
             }
 
+            _tokens.Add(new Token(EOF, "", null, _lineno));
             return _tokens;
         }
 

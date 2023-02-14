@@ -75,17 +75,29 @@ internal class Program
     {
         var scanner = new Scanner(source);
         var tokens = scanner.ScanTokens();
+        var parser = new Parser(tokens);
+        var expression = parser.Parse();
 
-        foreach (var token in tokens) {
-            Console.WriteLine(token);
-        }
+        if (HadError || expression == null) return;
+
+        Console.WriteLine(new AstPrinter().Print(expression));
     }
 
-    public static void Error(int lineno, string message) {
+    public static void Error(int lineno, string message)
+    {
         Report(lineno, "", message);
     }
 
-    static void Report(int lineno, string where, string message) {
+    public static void Error(Token token, string message)
+    {
+        if (token.Type == TokenType.EOF)
+            Report(token.LineNo, " at end", message);
+        else
+            Report(token.LineNo, $" at '{token.Lexeme}'", message);
+    }
+
+    static void Report(int lineno, string where, string message)
+    {
         Console.Error.WriteLine("[line {0}] Error{1}: {2}", lineno, where, message);
         HadError = true;
     }
